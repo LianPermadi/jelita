@@ -25,6 +25,6 @@ Route::get('/dashboard', function () {
 Route::get('/hazman', function () {
     return view('home');
 });
-Route::get('/lian', function () {
+Route::get('/sani', function () {
     return view('home');
 });
