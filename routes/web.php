@@ -28,3 +28,6 @@ Route::get('/hazman', function () {
 Route::get('/sani', function () {
     return view('home');
 });
+Route::get('/lian', function () {
+    return view('welcome');
+});
