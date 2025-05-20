@@ -29,5 +29,5 @@ Route::get('/sani', function () {
     return view('home');
 });
 Route::get('/lian', function () {
-    return view('welcome');
+    return view('home');
 });
