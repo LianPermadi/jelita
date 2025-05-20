@@ -22,3 +22,6 @@ Route::get('/home', function () {
 Route::get('/dashboard', function () {
     return view('home');
 });
+Route::get('/hazman', function () {
+    return view('welcome');
+});
