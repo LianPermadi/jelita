@@ -55,12 +55,12 @@
 <body>
 
 <header>
-    <h1>🌟 Jelita Perizinan</h1>
+    <h1>🌟 Jelita Perizinan coba</h1>
     <p>Digitalisasi Perizinan Menuju Jabar Juara</p>
 </header>
 
 <div class="container">
-    <h2>Selamat Datang!</h2>
+    <h2>Selamat Datang halo coba tes!</h2>
     <p>
         Ini adalah halaman dummy untuk aplikasi <strong>JELITA</strong> — sistem perizinan terintegrasi
         yang memudahkan investor, UMKM, dan masyarakat mengakses layanan tanpa ribet.
