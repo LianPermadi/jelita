@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🔁 Checkout Repository
+    - name: 🔁 Checkout Kode
       uses: actions/checkout@v3
 
     - name: 🔐 Setup SSH
@@ -20,12 +20,12 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: 🚀 Deploy to Server
+    - name: 🚀 SSH & Deploy ke Server
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd /var/www/html/jelita
           git pull origin main
-          composer install --no-interaction --prefer-dist --optimize-autoloader
+          composer install --no-interaction --prefer-dist
           php artisan migrate --force
           php artisan config:cache
           php artisan route:cache
