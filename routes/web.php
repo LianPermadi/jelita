@@ -26,7 +26,7 @@ Route::get('/hazman', function () {
     return view('home');
 });
 Route::get('/sani', function () {
-    return view('home');
+    return view('welcome');
 });
 Route::get('/lian', function () {
     return view('home');
