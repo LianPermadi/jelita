@@ -3,7 +3,7 @@
 </p>
 
 <h2 align="center">✨ Aplikasi JELITA</h2>
-<h3 align="center">Jendela Layanan Informasi dan Tata Kelola Perizinan Investasi</h3>
+<h3 align="center"></h3>
 <p align="center">DPMPTSP Provinsi Jawa Barat</p>
 
 ---
@@ -18,7 +18,7 @@ _Aplikasi ini adalah sistem internal untuk mendukung layanan investasi di lingku
 
 ### 1. Clone Repo
 ```bash
-git clone https://github.com/nama-org/jelita.git
+git clone https://github.com/LianPermadi/jelita.git
 cd jelita
 ```
 2. Salin File .env
