@@ -23,13 +23,24 @@ jobs:
     - name: 🚀 SSH & Deploy ke Server
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          cd /var/www/html/jelita
-          git pull origin main
-          composer install --no-interaction --prefer-dist
-          php artisan migrate --force
+          echo "✅ Connected via SSH"
+          whoami
+          hostname
+          echo "📂 Checking project folder..."
+          ls -la /var/www/html/jelita || echo "❌ Folder jelita tidak ditemukan"
+          cd /var/www/html/jelita || exit 1
+          echo "🔄 Pulling latest code..."
+          git pull origin main || exit 1
+          echo "📦 Installing dependencies..."
+          composer install --no-interaction --prefer-dist || exit 1
+          echo "⚙️ Running artisan commands..."
+          php artisan migrate --force || exit 1
           php artisan config:cache
           php artisan route:cache
           php artisan view:clear
           php artisan view:cache
-          sudo systemctl restart httpd
+          echo "🔥 Restarting Apache..."
+          sudo systemctl restart httpd || echo "⚠️ Gagal restart Apache"
         EOF
+
+
