@@ -52,7 +52,7 @@ class RoleController extends Controller
     public function index(Request $request): View
 
     {
-
+    
         $roles = Role::orderBy('id','DESC')->paginate(5);
 
         return view('roles.index',compact('roles'))
