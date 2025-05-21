@@ -35,10 +35,12 @@ jobs:
           fi
 
           cd /var/www/html/jelita
-
-          echo "🔄 Pulling latest code..."
-          git pull origin main || { echo "❌ Git pull gagal"; exit 1; }
-
+          
+          echo "🔄 Resetting code to match GitHub (HARD reset)..."
+          git fetch origin main
+          git reset --hard origin/main || { echo "❌ Git reset gagal"; exit 1; }
+          git clean -fd || { echo "❌ Git clean gagal"; exit 1; }
+          
           echo "📦 Installing dependencies with Composer..."
           if ! command -v composer &> /dev/null; then
             echo "❌ Composer tidak ditemukan di server!"
