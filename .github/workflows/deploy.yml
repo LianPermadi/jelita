@@ -1,0 +1,69 @@
+name: 🚀 Deploy Laravel ke Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🔁 Checkout Kode
+      uses: actions/checkout@v3
+
+    - name: 🔐 Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: 🚀 SSH & Deploy ke Server
+      run: |
+        ssh -v ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          set -e  # Stop on error, for safety
+          echo "✅ Connected via SSH"
+          whoami
+          hostname
+
+          echo "📂 Checking project folder..."
+          if [ ! -d /var/www/html/jelita ]; then
+            echo "❌ Folder jelita tidak ditemukan!"
+            exit 1
+          fi
+
+          cd /var/www/html/jelita
+          
+          echo "🔓 Fixing permissions before git reset..."
+          sudo chown -R dev:dev /var/www/html/jelita
+          
+          echo "🔄 Resetting code to match GitHub (HARD reset)..."
+          git fetch origin main
+          git reset --hard origin/main || { echo "❌ Git reset gagal"; exit 1; }
+          git clean -fd || { echo "❌ Git clean gagal"; exit 1; }
+          
+          echo "📦 Installing dependencies with Composer..."
+          if ! command -v composer &> /dev/null; then
+            echo "❌ Composer tidak ditemukan di server!"
+            exit 1
+          fi
+          composer install --no-interaction --prefer-dist || { echo "❌ Composer install gagal"; exit 1; }
+
+          echo "⚙️ Artisan commands..."
+          php artisan migrate --force || { echo "❌ Migrate gagal"; exit 1; }
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:clear
+          php artisan view:cache
+          
+          echo "🔐 Fixing storage permissions..."
+          sudo chown -R apache:apache storage bootstrap/cache
+          sudo chmod -R 775 storage bootstrap/cache
+          
+          echo "🔥 Restarting Apache..."
+          sudo systemctl restart httpd || echo "⚠️ Gagal restart Apache"
+        EOF
+
+
