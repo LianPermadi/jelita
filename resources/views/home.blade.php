@@ -55,7 +55,7 @@
 <body>
 
 <header>
-    <h1>🌟 Jelita Perizinan coba</h1>
+    <h1>🌟 Jelita Perizinan coba test</h1>
     <p>Digitalisasi Perizinan Menuju Jabar Juara</p>
 </header>
 
