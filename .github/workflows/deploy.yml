@@ -36,6 +36,9 @@ jobs:
 
           cd /var/www/html/jelita
           
+          echo "🔓 Fixing permissions before git reset..."
+          sudo chown -R dev:dev /var/www/html/jelita
+          
           echo "🔄 Resetting code to match GitHub (HARD reset)..."
           git fetch origin main
           git reset --hard origin/main || { echo "❌ Git reset gagal"; exit 1; }
