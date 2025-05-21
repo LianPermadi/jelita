@@ -22,23 +22,37 @@ jobs:
 
     - name: 🚀 SSH & Deploy ke Server
       run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+        ssh -v ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          set -e  # Stop on error, for safety
           echo "✅ Connected via SSH"
           whoami
           hostname
+
           echo "📂 Checking project folder..."
-          ls -la /var/www/html/jelita || echo "❌ Folder jelita tidak ditemukan"
-          cd /var/www/html/jelita || exit 1
+          if [ ! -d /var/www/html/jelita ]; then
+            echo "❌ Folder jelita tidak ditemukan!"
+            exit 1
+          fi
+
+          cd /var/www/html/jelita
+
           echo "🔄 Pulling latest code..."
-          git pull origin main || exit 1
-          echo "📦 Installing dependencies..."
-          composer install --no-interaction --prefer-dist || exit 1
-          echo "⚙️ Running artisan commands..."
-          php artisan migrate --force || exit 1
+          git pull origin main || { echo "❌ Git pull gagal"; exit 1; }
+
+          echo "📦 Installing dependencies with Composer..."
+          if ! command -v composer &> /dev/null; then
+            echo "❌ Composer tidak ditemukan di server!"
+            exit 1
+          fi
+          composer install --no-interaction --prefer-dist || { echo "❌ Composer install gagal"; exit 1; }
+
+          echo "⚙️ Artisan commands..."
+          php artisan migrate --force || { echo "❌ Migrate gagal"; exit 1; }
           php artisan config:cache
           php artisan route:cache
           php artisan view:clear
           php artisan view:cache
+
           echo "🔥 Restarting Apache..."
           sudo systemctl restart httpd || echo "⚠️ Gagal restart Apache"
         EOF
