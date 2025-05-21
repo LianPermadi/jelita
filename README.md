@@ -64,3 +64,70 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+<p align="center"> <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Lambang_Provinsi_Jawa_Barat.svg" width="120" alt="Logo Jabar"> </p> <h2 align="center">✨ Aplikasi JELITA</h2> <h3 align="center">Jendela Layanan Informasi dan Tata Kelola Perizinan Investasi</h3> <p align="center">DPMPTSP Provinsi Jawa Barat</p>
+
+📥 Panduan Clone & Setup Aplikasi Jelita
+Aplikasi ini adalah sistem internal untuk mendukung layanan investasi di lingkungan DPMPTSP Provinsi Jawa Barat.
+
+🚀 Langkah Cepat Instalasi (Untuk Developer)
+Clone Repo
+
+bash
+Salin
+Edit
+git clone https://github.com/nama-org/jelita.git
+cd jelita
+Copy file .env
+
+bash
+Salin
+Edit
+cp .env.example .env
+Install Dependencies
+(Pastikan sudah install Composer)
+
+bash
+Salin
+Edit
+composer install
+Generate App Key
+
+bash
+Salin
+Edit
+php artisan key:generate
+Set Database di .env, contoh:
+
+ini
+Salin
+Edit
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=jelita_db
+DB_USERNAME=root
+DB_PASSWORD=rahasia123
+Migrasi & Seed Database
+
+bash
+Salin
+Edit
+php artisan migrate --seed
+Jalankan Server Lokal
+
+bash
+Salin
+Edit
+php artisan serve
+
+ Kebutuhan Sistem
+PHP 8.x
+
+Composer
+
+MySQL / MariaDB
+
+Apache/Nginx
+
+Node.js (jika ada frontend asset builder)
